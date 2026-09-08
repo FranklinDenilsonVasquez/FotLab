@@ -1,3 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Anton&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Layered dark surfaces - each step lighter, for panel depth/hierarchy */
+  --color-bg: #0a0a0a;
+  --color-surface: #131313;
+  --color-surface-raised: #1b1b1b;
+  --color-surface-hover: #232323;
+
+  --color-border: #2a2a2a;
+  --color-border-strong: #3c3c3c;
+
+  --color-text-primary: #f2f2f2;
+  --color-text-secondary: #a3a3a3;
+  --color-text-tertiary: #6e6e6e;
+
+  /* Interactive accent (buttons, active states, focus) - distinct from the field's turf green */
+  --color-accent: #22c55e;
+  --color-accent-hover: #3fdc74;
+  --color-accent-muted: #163d26;
+
+  --color-field: #0c5623;
+}
+
 :root {
   --scrollbar-width: 8px;
   --scrollbar-track-color: rgb(10, 10, 10);
@@ -5,6 +32,18 @@
   --scrollbar-thumb-hover-color: #808080;
   --scrollbar-thumb-active-color: #a0a0a0;
   --scrollbar-border-radius: 4px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
 }
 
 ::-webkit-scrollbar {

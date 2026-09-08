@@ -1,47 +1,41 @@
 import { useEffect, useMemo } from "react";
 import useStandingStore from "../../store/useStandingStore";
 import { useSeasonStore } from "../../store/seasonStore";
-import "./StandingsContainer.css";
 import { groupStandings } from "../../utils/groupStandings";
-import useGameStore from "../../store/useGameStore";
-import useUiStore from "../../store/useUiStore";
+import useLayoutStore from "../../store/useLayoutStore";
 import ConferenceStandings from "./ConferenceStandings";
 
-function StandingsContainer({ team }) {
-  const teamSelected = team;
+function StandingsContainer() {
   const { data, fetchStandings } = useStandingStore();
   const { selectedSeason } = useSeasonStore();
-  const { homeTeamId, awayTeamId } = useGameStore();
-  const { activePanel } = useUiStore();
+  const { standingsView, toggleStandingsView } = useLayoutStore();
 
   useEffect(() => {
     if (selectedSeason !== undefined) {
-      const standings = fetchStandings(selectedSeason);
+      fetchStandings(selectedSeason);
     }
   }, [selectedSeason, fetchStandings]);
 
-  // console.log("Data: ", data);
+  const grouped = useMemo(() => groupStandings(data), [data]);
 
-  const grouped = useMemo(() => {
-    return groupStandings(data);
-  }, [data]);
-
-  // console.log("Grouped Standings: ", grouped);
-  // console.log("Home team: ", homeTeamId);
-  // console.log("Away team: ", awayTeamId);
   const afc = grouped["American Football Conference"] || {};
   const nfc = grouped["National Football Conference"] || {};
+  const condensed = standingsView === "condensed";
 
   return (
-    <div
-      className={`team-info-div-container standings-panel ${
-        activePanel === "standings" ? "open" : ""
-      }`}
-    >
-      <p className="standing-list-header">Standings</p>
-      <ConferenceStandings label="AFC" divisions={afc} />
-      <ConferenceStandings label="NFC" divisions={nfc} />
-    </div>
+    <>
+      <p className="mb-2 flex items-center justify-between border-b border-border pb-1 text-lg font-semibold text-text-primary">
+        Standings
+        <button
+          onClick={toggleStandingsView}
+          className="rounded-md border border-border px-2 py-0.5 text-xs font-normal text-text-secondary transition-colors hover:border-border-strong hover:text-text-primary"
+        >
+          {condensed ? "Full stats" : "Condensed"}
+        </button>
+      </p>
+      <ConferenceStandings label="AFC" divisions={afc} condensed={condensed} />
+      <ConferenceStandings label="NFC" divisions={nfc} condensed={condensed} />
+    </>
   );
 }
 

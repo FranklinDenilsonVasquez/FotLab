@@ -10,7 +10,7 @@ origins_env = os.environ.get("ALLOWED_ORIGINS",  "http://localhost:3000,http://1
 origins = [o.strip() for o in origins_env.split(",")]
 
 app = FastAPI(
-    title="NFL Stats API",
+    title="FotLab API",
     description="API for fetching NFL teams and players",
     version="1.0.0"
 )

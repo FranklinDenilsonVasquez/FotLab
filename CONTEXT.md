@@ -1,4 +1,4 @@
-# NFL Stats Project
+# FotLab
 
 Tracks NFL game, team, and player stats (2022-2024 seasons) and surfaces them through a FastAPI backend and React frontend.
 
@@ -13,3 +13,20 @@ A hypothetical incremental version of Player Game Rating that would update in re
 
 **League Percentile Rating** _(future, not yet built)_:
 A hypothetical relative rating that would compare a player's stat line against other players at the same position, for cross-player/league-wide comparison. Deliberately not what Player Game Rating does (see above): Player Game Rating answers "how did this player play," not "how did this player compare to others."
+
+## Frontend Layout
+
+**Panel**:
+One of the three regions of the game view: the Games Panel (game list), the Field Panel (selected game's field diagram), and the Standings Panel (conference/division tables). On desktop all three are visible side by side (Games left, Field center, Standings right), each independently closable. On narrow viewports only one Panel fills the screen at a time, switched via the Mobile Tab Bar; there are no off-canvas drawers.
+_Avoid_: Sidebar, drawer
+
+**Mobile Tab Bar**:
+The bottom navigation bar shown only on narrow viewports, with one tab per Panel (Games, Field, Standings). Tapping a tab makes that Panel the one filling the screen. Selecting a game from the Games Panel also switches the active tab to Field.
+_Avoid_: Bottom nav, drawer toggle
+
+**Condensed Standings View** / **Full Standings View**:
+The Standings Panel's two display modes for its per-team stat columns. Condensed (the default) shows a short, curated set of stats (W-L-T, PCT, PF, PA, Streak); Full shows all 18 tracked stat columns and is reached via an explicit expand action.
+_Avoid_: Compact view, detailed view
+
+**Team Theming** _(future, not yet built)_:
+A hypothetical mode where the Field Panel (and possibly header accents) would recolor to the two teams' colors when a game is selected. Deliberately deferred: the current UI uses one fixed dark palette regardless of the selected game.

@@ -6,7 +6,7 @@ const getDefaultSeason = () => {
     const today = new Date()
     const year = today.getFullYear()
     const month = today.getMonth() + 1
-    return month >= 9 ? year + 1 : year - 1
+    return month >= 9 ? year : year - 1
 }
 
 const generateSeasons = (numSeasons = 10) => {

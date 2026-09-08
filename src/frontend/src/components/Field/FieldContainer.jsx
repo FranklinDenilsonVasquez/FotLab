@@ -1,11 +1,8 @@
-import "./FieldContainer.css";
 import PlayerContainer from "../Player/PlayerContainer";
 import Field from "./Field";
 import { useEffect } from "react";
 import useGameStore from "../../store/useGameStore";
 import usePlayerStore from "../../store/usePlayersStore";
-import seasonSelector from "../SeasonSelector/SeasonSelector";
-import { useSeasonStore } from "../../store/seasonStore";
 import { CgToggleSquareOff, CgToggleSquare } from "react-icons/cg";
 
 function FieldContainer({ game }) {
@@ -13,8 +10,7 @@ function FieldContainer({ game }) {
   const awayLogo = game?.away_team?.logo;
 
   const { selectedGameId, offensiveSide, toggleOffensiveSide } = useGameStore();
-  const { fetchGamePlayers, fetchGameRoster, players } = usePlayerStore();
-  const { selectedSeason } = useSeasonStore();
+  const { fetchGamePlayers, players } = usePlayerStore();
 
   useEffect(() => {
     if (selectedGameId) {
@@ -22,84 +18,55 @@ function FieldContainer({ game }) {
     }
   }, [selectedGameId]);
 
-  //Debugging
-  // console.log("Home team QB: ", players?.home_team?.filter(p => p.position === "QB"))
-  // console.log("Away QB: ", players?.away_team?.filter(p => p.position === "QB"));
-  //
-  // console.log("Home team RB: ", players?.home_team?.filter(p => p.position === "RB"))
-  // console.log("Away RB: ", players?.away_team?.filter(p => p.position === "RB"));
+  const displayTeam = (side) => {
+    // side: "top" | "bottom" - which physical endzone this is rendering
+    if (side === "top") return offensiveSide === "home" ? game?.away_team : game?.home_team;
+    return offensiveSide === "home" ? game?.home_team : game?.away_team;
+  };
 
-  const offenseTeam =
-    offensiveSide === "home" ? game?.home_team : game?.away_team;
+  const renderEndzone = (side) => {
+    const team = displayTeam(side);
+    const logo = side === "top" ? (offensiveSide === "home" ? awayLogo : homeLogo) : (offensiveSide === "home" ? homeLogo : awayLogo);
 
-  return (
-    <div className="field-container">
-      {game && (
-        <button
-          className="side-toggle-btn"
-          onClick={toggleOffensiveSide}
-          title="Swap offensive and defensive sides"
-        >
-          {offensiveSide === "home" ? (
-            <CgToggleSquareOff className="toggle-icon" />
-          ) : (
-            <CgToggleSquare className="toggle-icon" />
-          )}
-        </button>
-      )}
-
-      <div className="top-endzone">
-        {awayLogo ? (
-          <div className="endzone-content">
-            <img
-              src={offensiveSide === "home" ? awayLogo : homeLogo}
-              className="endzone-logo"
-              alt={game?.away_team?.team_name}
-            />
-            <p className="endzone-name">
-              {offensiveSide === "home"
-                ? game.away_team.team_name
-                : game.home_team.team_name}
-            </p>
-            <img
-              src={offensiveSide === "home" ? awayLogo : homeLogo}
-              className="endzone-logo"
-              alt={game?.away_team?.team_name}
-            />
+    return (
+      <div className="flex min-h-16 w-full items-center justify-center border-2 border-white bg-[#14161a] box-border">
+        {logo ? (
+          <div className="flex w-full items-center justify-between px-5 py-2.5">
+            <img src={logo} className="h-[60px] w-[60px] object-contain" alt={team?.team_name} />
+            <p className="flex-1 text-center text-sm font-bold text-white">{team?.team_name}</p>
+            <img src={logo} className="h-[60px] w-[60px] object-contain" alt={team?.team_name} />
           </div>
         ) : (
           <p>NFL</p>
         )}
       </div>
-      <div className="field-container-padding"></div>
+    );
+  };
+
+  return (
+    <div className="relative mx-auto flex aspect-[9/4] h-full w-auto max-w-full flex-col justify-between rounded bg-surface text-white">
+      {game && (
+        <button
+          className="absolute right-[1.5%] top-[10.5%] z-10 flex h-6 w-9 items-center justify-center rounded border border-white/40 bg-black/85 text-xs font-bold text-white hover:bg-white/10"
+          onClick={toggleOffensiveSide}
+          title="Swap offensive and defensive sides"
+        >
+          {offensiveSide === "home" ? (
+            <CgToggleSquareOff className="h-full w-full" />
+          ) : (
+            <CgToggleSquare className="h-full w-full" />
+          )}
+        </button>
+      )}
+
+      {renderEndzone("top")}
+      <div className="h-10 border-x-2 border-white bg-field" />
       <Field />
       <div>
-        <div className="field-container-padding">
+        <div className="h-10 border-x-2 border-white bg-field">
           <PlayerContainer players={players} game={game} />
         </div>
-        <div className="bottom-endzone">
-          {homeLogo ? (
-            <div className="endzone-content">
-              <img
-                src={offensiveSide === "home" ? homeLogo : awayLogo}
-                className="endzone-logo"
-                alt={game?.home_team?.team_name}
-              />
-              <p className="endzone-name">
-                {offensiveSide === "home"
-                  ? game.home_team.team_name
-                  : game.away_team.team_name}
-              </p>
-              <img
-                src={offensiveSide === "home" ? homeLogo : awayLogo}
-                className="endzone-logo"
-                alt={game?.home_team?.team_name}
-              />
-            </div>
-          ) : (
-            <p>NFL</p>
-          )}
-        </div>
+        {renderEndzone("bottom")}
       </div>
     </div>
   );

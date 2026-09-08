@@ -1,58 +1,82 @@
-import { useMemo } from "react";
-import "./StandingsContainer.css";
 import { calculateWinPct } from "../../utils/calculateWinPct";
 
-function DivisionTable({ division, standings }) {
+// Condensed set mirrors what ESPN/NFL.com show by default; the full set is
+// every stat the API returns (see CONTEXT.md: Condensed/Full Standings View).
+const CONDENSED_COLUMNS = [
+  { key: "wins", label: "W" },
+  { key: "ties", label: "D" },
+  { key: "losses", label: "L" },
+  { key: "pct", label: "PCT", value: (t) => calculateWinPct(t.wins, t.losses, t.ties) },
+  { key: "points_for", label: "PF" },
+  { key: "points_against", label: "PA" },
+  { key: "streak", label: "STRK" },
+];
+
+const FULL_COLUMNS = [
+  { key: "wins", label: "W" },
+  { key: "ties", label: "D" },
+  { key: "losses", label: "L" },
+  { key: "pct", label: "PCT", value: (t) => calculateWinPct(t.wins, t.losses, t.ties) },
+  { key: "points_for", label: "PF" },
+  { key: "points_against", label: "PA" },
+  { key: "point_differential", label: "DIFF" },
+  { key: "division_wins", label: "DW" },
+  { key: "division_losses", label: "DL" },
+  { key: "conference_wins", label: "CW" },
+  { key: "conference_losses", label: "CL" },
+  { key: "home_wins", label: "HW" },
+  { key: "home_losses", label: "HL" },
+  { key: "road_wins", label: "RW" },
+  { key: "road_losses", label: "RL" },
+  { key: "streak", label: "STRK" },
+];
+
+function DivisionTable({ division, standings, condensed }) {
+  const columns = condensed ? CONDENSED_COLUMNS : FULL_COLUMNS;
+  const gridTemplateColumns = `2fr repeat(${columns.length}, 1fr)`;
+
   return (
-    <div className="division-container">
-      <div className="table-wrapper">
-        <div className="row-header">
-          <div className="legend-stat">{division}</div>
-          <div className="legend-stat">W</div>
-          <div className="legend-stat">D</div>
-          <div className="legend-stat">L</div>
-          <div className="legend-stat">PCT</div>
-          <div className="legend-stat">PF</div>
-          <div className="legend-stat">PA</div>
-          <div className="legend-stat">DIFF</div>
-          <div className="legend-stat">DW</div>
-          <div className="legend-stat">DL</div>
-          <div className="legend-stat">CW</div>
-          <div className="legend-stat">CL</div>
-          <div className="legend-stat">HW</div>
-          <div className="legend-stat">HL</div>
-          <div className="legend-stat">RW</div>
-          <div className="legend-stat">RL</div>
-          <div className="legend-stat">STRK</div>
+    <div className="my-2.5 overflow-x-auto rounded-lg border border-border bg-surface-raised pt-2.5">
+      <div className="min-w-max">
+        <div
+          className="grid items-end border-b border-text-tertiary bg-surface-raised font-bold"
+          style={{ gridTemplateColumns }}
+        >
+          <div className="sticky left-0 z-10 flex h-full w-[54px] items-center justify-center bg-surface p-1.5 text-text-tertiary">
+            {division}
+          </div>
+          {columns.map((col) => (
+            <div
+              key={col.key}
+              className="flex w-[30px] items-center justify-center p-1.5 text-text-tertiary"
+            >
+              {col.label}
+            </div>
+          ))}
         </div>
 
         {standings.map((team) => (
-          <div className="row" key={team.team.team_id}>
-            <div className="team-display">
+          <div
+            className="relative z-0 grid items-center"
+            style={{ gridTemplateColumns }}
+            key={team.team.team_id}
+          >
+            <div className="sticky left-0 z-10 flex w-max items-center justify-center border-r border-border bg-surface p-2">
               <img
-                className="standing-team-logo"
+                className="h-auto"
+                style={{ width: "clamp(24px, 4vw, 48px)" }}
                 src={team?.team?.logo}
                 alt={team.team.team_name}
-              ></img>
+              />
             </div>
-            <div className="stat">{team.wins}</div>
-            <div className="stat">{team.ties}</div>
-            <div className="stat">{team.losses}</div>
-            <div className="stat">
-              {calculateWinPct(team.wins, team.losses, team.ties)}
-            </div>
-            <div className="stat">{team.points_for}</div>
-            <div className="stat">{team.points_against}</div>
-            <div className="stat">{team.point_differential}</div>
-            <div className="stat">{team.division_wins}</div>
-            <div className="stat">{team.division_losses}</div>
-            <div className="stat">{team.conference_wins}</div>
-            <div className="stat">{team.conference_losses}</div>
-            <div className="stat">{team.home_wins}</div>
-            <div className="stat">{team.home_losses}</div>
-            <div className="stat">{team.road_wins}</div>
-            <div className="stat">{team.road_losses}</div>
-            <div className="stat">{team.streak}</div>
+            {columns.map((col) => (
+              <div
+                key={col.key}
+                className="flex w-[30px] items-center justify-center bg-surface-raised p-1.5 text-text-primary"
+              >
+                {col.value ? col.value(team) : team[col.key]}
+              </div>
+            ))}
           </div>
         ))}
       </div>

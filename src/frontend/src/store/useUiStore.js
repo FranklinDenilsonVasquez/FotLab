@@ -1,14 +1,11 @@
 import { create } from "zustand";
 
+// Which Panel fills the screen on mobile (< lg), where only one Panel is
+// shown at a time and a bottom tab bar switches between them.
 const useUiStore = create((set) => ({
-  activePanel: null, // null | "games" | "standings"
+  mobileTab: "games", // "games" | "field" | "standings"
 
-  togglePanel: (panel) =>
-    set((state) => ({
-      activePanel: state.activePanel === panel ? null : panel,
-    })),
-
-  closePanel: () => set({ activePanel: null }),
+  setMobileTab: (tab) => set({ mobileTab: tab }),
 }));
 
 export default useUiStore;
