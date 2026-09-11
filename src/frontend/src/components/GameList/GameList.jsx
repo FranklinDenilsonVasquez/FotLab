@@ -118,7 +118,7 @@ function GameList() {
           mobileTab === "games" ? "flex flex-1" : "hidden",
           "lg:flex lg:flex-none lg:shrink-0 lg:border-r lg:border-border lg:pb-0 lg:pt-12 lg:transition-[width,padding,opacity] lg:duration-200",
           gamesPanelOpen
-            ? "lg:w-100 lg:opacity-100"
+            ? "lg:w-80 lg:opacity-100"
             : "lg:w-0 lg:overflow-hidden lg:border-0 lg:p-0 lg:opacity-0",
         )}
       >
@@ -153,13 +153,13 @@ function GameList() {
                     alt={game.home_team.team_name}
                     className="mx-1 inline-block h-10 w-10 object-contain align-middle"
                   />
-                  {game.home_team.team_name}
+                  {game.home_team.team_name.split(' ').at(-1)}
                   {showScore ? (
                     <div className="flex flex-1 justify-end">
                       {game.home_team_score}
                     </div>
                   ) : (
-                    <span className="text-text-primary"></span>
+                    <span className="flex flex-1 justify-end">-</span>
                   )}{" "}
                 </div>
                 <div className="flex items-center gap-2">
@@ -168,13 +168,13 @@ function GameList() {
                     alt={game.away_team.team_name}
                     className="mx-1 inline-block h-10 w-10 object-contain align-middle"
                   />
-                  {game.away_team.team_name}
+                  {game.away_team.team_name.split(' ').at(-1)}
                   {showScore ? (
                     <div className="flex flex-1 justify-end">
                       {game.away_team_score}
                     </div>
                   ) : (
-                    <span className="text-text-primary"></span>
+                    <span className="flex flex-1 justify-end">-</span>
                   )}{" "}
                 </div>
               </li>
@@ -204,7 +204,7 @@ function GameList() {
           mobileTab === "standings" ? "flex flex-1" : "hidden",
           "lg:flex lg:flex-none lg:shrink-0 lg:border-l lg:border-border lg:pb-4 lg:pt-12 lg:transition-[width,padding,opacity] lg:duration-200",
           standingsPanelOpen
-            ? "lg:w-100 lg:opacity-100"
+            ? "lg:w-80 lg:opacity-100"
             : "lg:w-0 lg:overflow-hidden lg:border-0 lg:p-0 lg:opacity-0",
         )}
       >

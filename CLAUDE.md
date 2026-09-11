@@ -66,3 +66,5 @@ After implementing:
 1. Run tests if available
 2. Explain architectural decisions.
 3. Prefer minimal changes over rewrites.
+
+## Commenting 
