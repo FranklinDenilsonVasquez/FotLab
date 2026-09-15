@@ -15,7 +15,7 @@ function Header() {
   }, [weekIndex, currentWeek, setWeek, setStage]);
 
   return (
-    <header className="flex flex-wrap items-center justify-between gap-y-2 border-b border-b-border-strong bg-surface px-4 py-6 text-text-primary">
+    <header className="flex flex-wrap items-center justify-between gap-y-2 border-b border-b-border-strong bg-surface px-4 py-4 text-text-primary">
       <h1
         className="text-2xl tracking-wide text-text-primary"
         style={{ fontFamily: "'Anton', sans-serif" }}

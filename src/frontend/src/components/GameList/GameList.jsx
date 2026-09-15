@@ -50,8 +50,8 @@ function GameList() {
   const { mobileTab, setMobileTab } = useUiStore();
   const {
     gamesPanelOpen,
-    standingsPanelOpen,
     toggleGamesPanel,
+    standingsPanelOpen,
     toggleStandingsPanel,
   } = useLayoutStore();
 
@@ -91,39 +91,27 @@ function GameList() {
 
   return (
     <main className="relative flex min-h-0 min-w-0 flex-col overflow-hidden lg:flex-row ">
-      {/* Desktop panel toggles (>= lg) */}
-      <button
-        className="absolute left-2 top-2 z-20 hidden h-8 w-8 items-center justify-center rounded-md border border-white/20 bg-white/10 text-text-primary backdrop-blur-md transition-colors hover:bg-white/10 hover:text-text-primary lg:flex"
-        onClick={toggleGamesPanel}
-        title={gamesPanelOpen ? "Hide games panel" : "Show games panel"}
-        aria-expanded={gamesPanelOpen}
-      >
-        {gamesPanelOpen ? <MdChevronLeft /> : <MdChevronRight />}
-      </button>
-      <button
-        className="absolute right-2 top-2 z-20 hidden h-8 w-8 items-center justify-center rounded-md border border-white/20 bg-white/10 text-text-primary backdrop-blur-md transition-colors hover:bg-white/10 hover:text-text-primary lg:flex"
-        onClick={toggleStandingsPanel}
-        title={
-          standingsPanelOpen ? "Hide standings panel" : "Show standings panel"
-        }
-        aria-expanded={standingsPanelOpen}
-      >
-        {standingsPanelOpen ? <MdChevronRight /> : <MdChevronLeft />}
-      </button>
-
       {/* Games Panel */}
       <div
         className={cx(
           "min-h-0 flex-col overflow-y-auto bg-surface px-6 pb-24",
           mobileTab === "games" ? "flex flex-1" : "hidden",
-          "lg:flex lg:flex-none lg:shrink-0 lg:border-r lg:border-border lg:pb-0 lg:pt-12 lg:transition-[width,padding,opacity] lg:duration-200",
+          "lg:flex lg:flex-none lg:shrink-0 lg:border-r lg:border-border lg:pb-0 lg:pt-4 lg:transition-[width,padding,opacity] lg:duration-200",
           gamesPanelOpen
-            ? "lg:w-100 lg:opacity-100"
+            ? "lg:w-80 lg:opacity-100"
             : "lg:w-0 lg:overflow-hidden lg:border-0 lg:p-0 lg:opacity-0",
         )}
       >
-        <p className="mb-2 flex items-center justify-between border-b border-border pb-1 text-lg font-semibold text-text-primary">
-          Games
+        <p className="mb-2 flex items-center gap-2 border-b border-border pb-1 text-lg font-semibold text-text-primary">
+          <button
+            onClick={toggleGamesPanel}
+            className="flex h-8 w-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary cursor-pointer"
+            title={gamesPanelOpen ? "Hide games panel" : "Show games panel"}
+            aria-expanded={gamesPanelOpen}
+          >
+            {gamesPanelOpen ? <MdChevronLeft /> : <MdChevronRight />}
+          </button>
+          <span className="flex-1 text-center">Games</span>
           <button
             onClick={() => setShowScore(!showScore)}
             className="text-text-secondary transition-transform hover:scale-125 hover:text-text-primary"
@@ -153,13 +141,13 @@ function GameList() {
                     alt={game.home_team.team_name}
                     className="mx-1 inline-block h-10 w-10 object-contain align-middle"
                   />
-                  {game.home_team.team_name}
+                  {game.home_team.team_name.split(' ').at(-1)}
                   {showScore ? (
                     <div className="flex flex-1 justify-end">
                       {game.home_team_score}
                     </div>
                   ) : (
-                    <span className="text-text-primary"></span>
+                    <span className="flex flex-1 justify-end">-</span>
                   )}{" "}
                 </div>
                 <div className="flex items-center gap-2">
@@ -168,13 +156,13 @@ function GameList() {
                     alt={game.away_team.team_name}
                     className="mx-1 inline-block h-10 w-10 object-contain align-middle"
                   />
-                  {game.away_team.team_name}
+                  {game.away_team.team_name.split(' ').at(-1)}
                   {showScore ? (
                     <div className="flex flex-1 justify-end">
                       {game.away_team_score}
                     </div>
                   ) : (
-                    <span className="text-text-primary"></span>
+                    <span className="flex flex-1 justify-end">-</span>
                   )}{" "}
                 </div>
               </li>
@@ -185,6 +173,20 @@ function GameList() {
           <p className="text-text-secondary">No games found.</p>
         )}
       </div>
+
+      {/* Games Panel collapsed rail (>= lg, panel closed) */}
+      {!gamesPanelOpen && (
+        <div className="hidden lg:flex lg:w-10 lg:flex-none lg:flex-col lg:items-center lg:border-r lg:border-border lg:pt-4">
+          <button
+            onClick={toggleGamesPanel}
+            className="flex h-8 w-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary cursor-pointer"
+            title="Show games panel"
+            aria-expanded={gamesPanelOpen}
+          >
+            <MdChevronRight />
+          </button>
+        </div>
+      )}
 
       {/* Field Panel */}
       <div
@@ -197,14 +199,28 @@ function GameList() {
         <FieldContainer game={selectedGame} />
       </div>
 
+      {/* Standings Panel collapsed rail (>= lg, panel closed) */}
+      {!standingsPanelOpen && (
+        <div className="hidden lg:flex lg:w-10 lg:flex-none lg:flex-col lg:items-center lg:border-l lg:border-border lg:pt-4">
+          <button
+            onClick={toggleStandingsPanel}
+            className="flex h-8 w-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary cursor-pointer"
+            title="Show standings panel"
+            aria-expanded={standingsPanelOpen}
+          >
+            <MdChevronLeft />
+          </button>
+        </div>
+      )}
+
       {/* Standings Panel */}
       <div
         className={cx(
           "min-h-0 flex-col overflow-y-auto bg-surface p-4 pb-24",
           mobileTab === "standings" ? "flex flex-1" : "hidden",
-          "lg:flex lg:flex-none lg:shrink-0 lg:border-l lg:border-border lg:pb-4 lg:pt-12 lg:transition-[width,padding,opacity] lg:duration-200",
+          "lg:flex lg:flex-none lg:shrink-0 lg:border-l lg:border-border lg:pb-4 lg:pt-4 lg:transition-[width,padding,opacity] lg:duration-200",
           standingsPanelOpen
-            ? "lg:w-100 lg:opacity-100"
+            ? "lg:w-80 lg:opacity-100"
             : "lg:w-0 lg:overflow-hidden lg:border-0 lg:p-0 lg:opacity-0",
         )}
       >

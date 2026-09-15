@@ -44,7 +44,7 @@ function FieldContainer({ game }) {
   };
 
   return (
-    <div className="relative mx-auto flex aspect-[9/4] h-full w-auto max-w-full flex-col justify-between rounded bg-surface text-white">
+    <div className="relative mx-auto flex aspect-[9/4] h-full w-auto min-w-0 max-w-full flex-col justify-between rounded bg-surface text-white">
       {game && (
         <button
           className="absolute right-[1.5%] top-[10.5%] z-10 flex h-6 w-9 items-center justify-center rounded border border-white/40 bg-black/85 text-xs font-bold text-white hover:bg-white/10"

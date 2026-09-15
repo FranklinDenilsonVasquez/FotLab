@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./PlayerContainer.css";
 import usePlayerStore from "../../store/usePlayersStore";
 import useGameStore from "../../store/useGameStore";
 import { groupPlayersByPosition } from "../../utils/groupPlayersByPosition";
@@ -90,8 +89,8 @@ function PlayerContainer({ game, players }) {
     // console.log("HomeMerged: ", homeMerged);
 
     const awayMerged = mergeRosterWithStats(awayRoster, awayPlayers);
-    console.log("Away roster before merge: ", awayRoster);
-    console.log("AwayMerged: ", awayMerged);
+    //console.log("Away roster before merge: ", awayRoster);
+    //console.log("AwayMerged: ", awayMerged);
 
     const groupAndRank = (rosters, players) => {
       const grouped = groupPlayersByPosition(players);
@@ -151,8 +150,17 @@ function PlayerContainer({ game, players }) {
 
     setPlayer(player?.player_id);
     openPlayerCard(player?.player_id);
-    console.log(player);
+    //console.log(player);
   };
+
+  const playerButtonClasses =
+    "group absolute rounded-full bg-[#262525] text-white " +
+    "border-[3px] border-white max-lg:border max-lg:border-white " +
+    "h-[clamp(25px,6vmin,60px)] w-[clamp(25px,6vmin,60px)] " +
+    "max-lg:h-[clamp(35px,4vmin,60px)] max-lg:w-[clamp(35px,4vmin,60px)] " +
+    "hover:cursor-pointer hover:z-[100] hover:scale-[1.6] " +
+    "hover:[border-color:antiquewhite] hover:[text-shadow:0_2px_6px_rgba(0,0,0,1)] " +
+    "active:scale-[1.2]";
 
   return (
     <div>
@@ -163,7 +171,7 @@ function PlayerContainer({ game, players }) {
         return (
           <button
             key={slot.id}
-            className={`player-button ${slot.id}`}
+            className={`${playerButtonClasses} ${slot.className}`}
             style={{
               backgroundImage: player?.player_img
                 ? `url(${player.player_img})`
@@ -188,13 +196,13 @@ function PlayerContainer({ game, players }) {
             )}
             {player?.rating != null && (
               <span
-                className="player-rating-badge-small"
+                className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 min-w-[16px] rounded-md border border-[#0f0f0f] px-[3px] text-center text-[length:clamp(6px,1.4vw,10px)] font-bold leading-[1.4] text-[#0f0f0f] whitespace-nowrap pointer-events-none group-hover:text-[length:clamp(8px,1vw,11px)]"
                 style={{ backgroundColor: getRatingColor(player.rating) }}
               >
                 {player.rating.toFixed(1)}
               </span>
             )}
-            <span className="hover-text">
+            <span className="absolute top-[110%] left-1/2 hidden -translate-x-1/2 whitespace-nowrap text-center font-bold text-[#f9f9f9] [text-shadow:0_6px_12px_rgb(0,0,0)] max-lg:text-[xx-small] group-hover:inline-block">
               {" "}
               {player ? player.player_name : slot.id}{" "}
             </span>
@@ -207,7 +215,7 @@ function PlayerContainer({ game, players }) {
         return (
           <button
             key={slot.id}
-            className={`player-button ${slot.id}`}
+            className={`${playerButtonClasses} ${slot.className}`}
             style={{
               backgroundImage: player?.player_img
                 ? `url(${player.player_img})`
@@ -232,13 +240,13 @@ function PlayerContainer({ game, players }) {
             )}
             {player?.rating != null && (
               <span
-                className="player-rating-badge-small"
+                className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 min-w-[16px] rounded-md border border-[#0f0f0f] px-[3px] text-center text-[length:clamp(6px,1.4vw,10px)] font-bold leading-[1.4] text-[#0f0f0f] whitespace-nowrap pointer-events-none group-hover:text-[length:clamp(8px,1vw,11px)]"
                 style={{ backgroundColor: getRatingColor(player.rating) }}
               >
                 {player.rating.toFixed(1)}
               </span>
             )}
-            <span className="hover-text">
+            <span className="absolute top-[110%] left-1/2 hidden -translate-x-1/2 whitespace-nowrap text-center font-bold text-[#f9f9f9] [text-shadow:0_6px_12px_rgb(0,0,0)] max-lg:text-[xx-small] group-hover:inline-block">
               {" "}
               {player ? player.player_name : slot.id}{" "}
             </span>

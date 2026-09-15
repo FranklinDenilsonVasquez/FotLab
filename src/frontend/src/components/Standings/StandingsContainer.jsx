@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import useStandingStore from "../../store/useStandingStore";
 import { useSeasonStore } from "../../store/seasonStore";
 import { groupStandings } from "../../utils/groupStandings";
@@ -8,7 +9,12 @@ import ConferenceStandings from "./ConferenceStandings";
 function StandingsContainer() {
   const { data, fetchStandings } = useStandingStore();
   const { selectedSeason } = useSeasonStore();
-  const { standingsView, toggleStandingsView } = useLayoutStore();
+  const {
+    standingsView,
+    toggleStandingsView,
+    standingsPanelOpen,
+    toggleStandingsPanel,
+  } = useLayoutStore();
 
   useEffect(() => {
     if (selectedSeason !== undefined) {
@@ -24,8 +30,18 @@ function StandingsContainer() {
 
   return (
     <>
-      <p className="mb-2 flex items-center justify-between border-b border-border pb-1 text-lg font-semibold text-text-primary">
-        Standings
+      <p className="mb-2 flex items-center gap-2 border-b border-border pb-1 text-lg font-semibold text-text-primary">
+        <button
+          onClick={toggleStandingsPanel}
+          className="flex h-8 w-8 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary cursor-pointer"
+          title={
+            standingsPanelOpen ? "Hide standings panel" : "Show standings panel"
+          }
+          aria-expanded={standingsPanelOpen}
+        >
+          {standingsPanelOpen ? <MdChevronRight /> : <MdChevronLeft />}
+        </button>
+        <span className="flex-1 text-center">Standings</span>
         <button
           onClick={toggleStandingsView}
           className="rounded-md border border-border px-2 py-0.5 text-xs font-normal text-text-secondary transition-colors hover:border-border-strong hover:text-text-primary"
