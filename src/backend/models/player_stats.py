@@ -97,7 +97,7 @@ class KickingStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     games : List[KickingGameStats]
 
 class PuntingStats(BaseModel):
@@ -142,7 +142,7 @@ class QBStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # QB Stats
     games: List[QBGameStats]
 
@@ -152,7 +152,7 @@ class QBStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # QB Stats
     # Passing stats
     passing: PassingStats
@@ -167,7 +167,7 @@ class SkillStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Receiving stats
     receiving: ReceivingStats
     # Rushing stats
@@ -193,7 +193,7 @@ class SkillStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Skill position stats
     games: List[SkillGameStats]
 
@@ -203,7 +203,7 @@ class DefenseStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Defensive stats
     defense: DefenseDetails
     int_stats: InterceptionStats
@@ -225,7 +225,7 @@ class DefenseStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     games : List[DefenseGameStats]
 
 # season long kicker stats
@@ -234,7 +234,7 @@ class KickerStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Kicker stats
     kicking : KickingStats
 
@@ -252,7 +252,7 @@ class PunterStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     games: List[PunterGameStats]
 
 # season long punter stats
@@ -261,7 +261,7 @@ class PunterStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Punting stats
     punting: PuntingStats
 
@@ -271,7 +271,7 @@ class KickReturnerStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     kicking : KickingStats
 
 # season long punt returner stats
@@ -280,7 +280,7 @@ class PuntReturnerStats(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     total: int
     yards: int
     average: float
@@ -292,7 +292,7 @@ class LinemenStats(BaseModel):
     player_name: str
     season_id: int | None = 0
     position: str
-    player_img: str
+    player_img: str | None
     fumbles : FumbleStats
     defense : DefenseDetails
 
@@ -310,6 +310,6 @@ class LinemanStatsPerGame(BaseModel):
     player_name: str
     season_id: int
     position: str
-    player_img: str
+    player_img: str | None
     # Game stats
     games : List[LinemanGameStats]

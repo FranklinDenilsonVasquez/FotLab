@@ -6,7 +6,7 @@ class Player(BaseModel):
     player_id: int
     player_name: str
     position: str
-    player_img: str
+    player_img: str | None
     jersey_number: int
     season_id: int
     age: int | None = None

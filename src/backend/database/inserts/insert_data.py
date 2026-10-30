@@ -2,6 +2,7 @@ from src.backend.database.db_connection import get_db_connection
 from src.backend.database.db_config import get_db_config
 from src.backend.utils.logging import setup_logger
 from src.backend.scripts.utils.player_exists import player_exists
+from src.backend.services.headshot_service import resolve_headshot_url
 import mysql.connector
 import psycopg2
 from datetime import datetime
@@ -126,7 +127,7 @@ def insert_players(players, team_id, season):
             group = player.get('group')
             position_type = normalize_position_type(group)
             roster_status = get_roster_status(group)
-            image_url = player.get('image')
+            image_url = resolve_headshot_url(player.get('image'))
             jersey_number = player.get('number')
 
             player_team_exists = player_exists(cursor, api_player_id, season_id, team_id)

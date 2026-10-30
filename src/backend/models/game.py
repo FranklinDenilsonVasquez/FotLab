@@ -46,7 +46,7 @@ class PlayerGamesResponse(BaseModel):
     player_id : int
     position : str
     season_id : int
-    player_img : str
+    player_img : str | None
     player_name: str
     games: List[GameInfo]
 
@@ -65,7 +65,7 @@ class PlayerStats(BaseModel):
 class PlayerGameStatsResponse(BaseModel):
     player_id: int
     player_name: str
-    player_img: str
+    player_img: str | None
     position: Optional[str] = None
     stats: PlayerStats
     rating: Optional[float] = None

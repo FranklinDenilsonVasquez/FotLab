@@ -14,6 +14,19 @@ A hypothetical incremental version of Player Game Rating that would update in re
 **League Percentile Rating** _(future, not yet built)_:
 A hypothetical relative rating that would compare a player's stat line against other players at the same position, for cross-player/league-wide comparison. Deliberately not what Player Game Rating does (see above): Player Game Rating answers "how did this player play," not "how did this player compare to others."
 
+## Player Headshots
+
+**Placeholder Headshot**:
+The "image not available" picture the stats API serves in place of a real photo for players it has no headshot for. Recognized by an exact byte match against the known placeholder image. Never shown to users.
+_Avoid_: Missing image, broken image, default image (reserved for our own replacement below)
+
+**Default Headshot**:
+Our own neutral silhouette image, shown in place of a Placeholder Headshot. One image for every player, with no team or position variation. Treated like a real headshot for display purposes, including the rating ring and badge.
+_Avoid_: Fallback image, placeholder
+
+**Empty Slot Icon**:
+The faded generic account icon shown when a lineup slot has no player or no game is selected. Not a headshot and unrelated to the Default Headshot.
+
 ## Frontend Layout
 
 **Panel**:
