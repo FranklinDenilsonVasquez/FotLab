@@ -9,6 +9,7 @@ import { useSeasonStore } from "../../store/seasonStore";
 import { MdAccountCircle } from "react-icons/md";
 import usePlayerCardStore from "../../store/usePlayerCardStore";
 import { getRatingColor } from "../../utils/ratingColor";
+import { getHeadshotSrc } from "../../utils/headshot";
 
 function PlayerContainer({ game, players }) {
   const { fetchGameRoster, fetchGamePlayers, setRoster, rosters } =
@@ -173,8 +174,8 @@ function PlayerContainer({ game, players }) {
             key={slot.id}
             className={`${playerButtonClasses} ${slot.className}`}
             style={{
-              backgroundImage: player?.player_img
-                ? `url(${player.player_img})`
+              backgroundImage: getHeadshotSrc(player)
+                ? `url("${getHeadshotSrc(player)}")`
                 : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -217,8 +218,8 @@ function PlayerContainer({ game, players }) {
             key={slot.id}
             className={`${playerButtonClasses} ${slot.className}`}
             style={{
-              backgroundImage: player?.player_img
-                ? `url(${player.player_img})`
+              backgroundImage: getHeadshotSrc(player)
+                ? `url("${getHeadshotSrc(player)}")`
                 : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",

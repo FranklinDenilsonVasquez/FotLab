@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 import { findPlayerTeam } from "../../utils/findPlayerTeam";
 import { useSeasonStore } from "../../store/seasonStore";
 import { getRatingColor } from "../../utils/ratingColor";
+import { getHeadshotSrc } from "../../utils/headshot";
 import StatsSection from "./StatsSection";
 
 function PlayerCard() {
@@ -105,9 +106,9 @@ function PlayerCard() {
                       borderColor: getRatingColor(player?.rating) || undefined,
                     }}
                   >
-                    {player?.player_img ? (
+                    {getHeadshotSrc(player) ? (
                       <img
-                        src={player?.player_img}
+                        src={getHeadshotSrc(player)}
                         alt={player?.player_name}
                       ></img>
                     ) : (
