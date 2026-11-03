@@ -23,7 +23,7 @@ function Header() {
         FotLab
       </h1>
 
-      <div className="order-3 flex w-full items-center justify-center gap-3 lg:order-none lg:w-auto">
+      <div className="order-3 flex w-full items-center justify-center gap-3 sm:order-none sm:w-auto">
         <button
           className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white text-white transition-transform hover:scale-110 hover:bg-white hover:text-bg"
           onClick={prevWeek}
