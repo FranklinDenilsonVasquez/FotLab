@@ -30,12 +30,16 @@ The faded generic account icon shown when a lineup slot has no player or no game
 ## Frontend Layout
 
 **Panel**:
-One of the three regions of the game view: the Games Panel (game list), the Field Panel (selected game's field diagram), and the Standings Panel (conference/division tables). On desktop all three are visible side by side (Games left, Field center, Standings right), each independently closable. On narrow viewports only one Panel fills the screen at a time, switched via the Mobile Tab Bar; there are no off-canvas drawers.
+One of the three regions of the game view: the Games Panel (game list), the Field Panel (selected game's field diagram), and the Standings Panel (conference/division tables). On desktop all three are visible side by side (Games left, Field center, Standings right), each independently closable. On narrow viewports the Games Panel is replaced by the Games Strip, and only one of the Field and Standings Panels fills the screen at a time, switched via the Mobile Tab Bar; there are no off-canvas drawers.
 _Avoid_: Sidebar, drawer
 
 **Mobile Tab Bar**:
-The bottom navigation bar shown only on narrow viewports, with one tab per Panel (Games, Field, Standings). Tapping a tab makes that Panel the one filling the screen. Selecting a game from the Games Panel also switches the active tab to Field.
+The bottom navigation bar shown only on narrow viewports, with one tab per full-screen Panel (Field, Standings). Tapping a tab makes that Panel the one filling the screen. The default tab is Field.
 _Avoid_: Bottom nav, drawer toggle
+
+**Games Strip**:
+The horizontally scrollable row of games shown above the Field Panel on narrow viewports, replacing the Games Panel there. Each game shows only the two team logos (no names or scores). Selecting a game loads it onto the field. Visible only while the Field tab is active.
+_Avoid_: Game carousel, game bar
 
 **Condensed Standings View** / **Full Standings View**:
 The Standings Panel's two display modes for its per-team stat columns. Condensed (the default) shows a short, curated set of stats (W-L-T, PCT, PF, PA, Streak); Full shows all 18 tracked stat columns and is reached via an explicit expand action.

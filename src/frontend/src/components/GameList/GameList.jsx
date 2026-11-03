@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useSeasonStore } from "../../store/seasonStore";
 import FieldContainer from "../Field/FieldContainer";
 import StandingsContainer from "../Standings/StandingsContainer";
+import GameStrip from "./GameStrip";
 import useGameStore from "../../store/useGameStore";
 import usePlayersStore from "../../store/usePlayersStore";
 import useUiStore from "../../store/useUiStore";
@@ -11,7 +12,6 @@ import {
   MdVisibilityOff,
   MdChevronLeft,
   MdChevronRight,
-  MdViewList,
   MdSportsFootball,
   MdLeaderboard,
 } from "react-icons/md";
@@ -21,7 +21,6 @@ function cx(...classes) {
 }
 
 const MOBILE_TABS = [
-  { id: "games", label: "Games", icon: MdViewList },
   { id: "field", label: "Field", icon: MdSportsFootball },
   { id: "standings", label: "Standings", icon: MdLeaderboard },
 ];
@@ -103,8 +102,7 @@ function GameList() {
       {/* Games Panel */}
       <div
         className={cx(
-          "min-h-0 flex-col overflow-y-auto bg-surface px-6 pb-24",
-          mobileTab === "games" ? "flex flex-1" : "hidden",
+          "hidden min-h-0 flex-col overflow-y-auto bg-surface px-6",
           "lg:flex lg:flex-none lg:shrink-0 lg:border-r lg:border-border lg:pb-0 lg:pt-4 lg:transition-[width,padding,opacity] lg:duration-200",
           gamesPanelOpen
             ? "lg:w-80 lg:opacity-100"
@@ -195,6 +193,17 @@ function GameList() {
             <MdChevronRight />
           </button>
         </div>
+      )}
+
+      {/* Games Strip (< lg, Field tab only) - replaces the Games Panel on narrow viewports */}
+      {mobileTab === "field" && (
+        <GameStrip
+          games={games}
+          loading={loading}
+          error={error}
+          selectedGame={selectedGame}
+          onSelect={handleGameClick}
+        />
       )}
 
       {/* Field Panel */}
