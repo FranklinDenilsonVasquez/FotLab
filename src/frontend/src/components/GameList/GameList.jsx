@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSeasonStore } from "../../store/seasonStore";
 import FieldContainer from "../Field/FieldContainer";
 import StandingsContainer from "../Standings/StandingsContainer";
@@ -59,15 +59,24 @@ function GameList() {
     setShowScore(false);
   }, []);
 
+  // Back to the default field: no selected game, no players
+  const resetField = useCallback(() => {
+    setGameSelected(null);
+    clearSelectedGame();
+    clearPlayers();
+  }, [clearSelectedGame, clearPlayers]);
+
   useEffect(() => {
     if (selectedSeason !== undefined) {
       setSeason(selectedSeason);
-      // Reset the field to its default state when the season changes
-      setGameSelected(null);
-      clearSelectedGame();
-      clearPlayers();
+      resetField();
     }
-  }, [selectedSeason, setSeason, clearSelectedGame, clearPlayers]);
+  }, [selectedSeason, setSeason, resetField]);
+
+  // The selected game belongs to the previous week, so reset on week change too
+  useEffect(() => {
+    resetField();
+  }, [week, resetField]);
 
   useEffect(() => {
     if (season !== undefined && week !== undefined) {
